@@ -123,3 +123,21 @@
   function first(...args: number[], a: number) {} // erro, não pode ser o primeiro
   function multiple(...args: number[], ...args2: number[]) {} // erro, só pode ter um
 }
+
+// Call signatures ou type signatures
+{
+  // Call signatures são a forma de declarar uma função
+  // em uma interface ou type usando tipos puramente
+  // é assim que o TypeScript entende funções como tipos
+  interface Foo {
+    // call signatures são bem parecidas com arrow functions
+		// aqui precisamos obrigatoriamente ter a tipagem do retorno
+    fn: (a: number, b: number) => number
+  }
+
+  type MinhaFn = (a: number, b?: number) => number
+  type Variadic = (...args: number[]) => number[]
+
+  // Assim podemos forçar a tipagem de uma função para que seja o que a gente quer
+  let variadic: Variadic = (...args) => args
+}
