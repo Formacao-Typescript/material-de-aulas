@@ -1,0 +1,24 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    // Permite que a gente importe módulos com default export
+    // sem precisar usar import * as nome from 'caminho'
+    // ficando apenas import nome from 'caminho'
+    // "allowSyntheticDefaultImports": true,
+
+    // esModuleInterop vai permitir que a gente use import e export
+    // interoperáveis com CommonJS
+    // então import * as nome from 'caminho' seria igual a const nome = require('caminho')
+    // e import nome from 'caminho' seria igual a const nome = require('caminho').default que é o default export no CommonJS
+    "esModuleInterop": true,
+
+    // Vai usar ESM como módulo no arquivo gerado
+    // Mas para isso, precisamos mudar o arquivo package.json
+    // para conter o campo "type": "module" ou mudar a nossa extensão para .mjs
+    // "module": "ESNext",
+
+    // vai manter nosso código limpo
+    "target": "ESNext"
+  }
+}

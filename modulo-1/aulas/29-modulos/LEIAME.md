@@ -4,6 +4,8 @@ Nessa pasta você vai ter os principais sistemas de resolução de módulos do J
 
 Para poder gerar os módulos transpilados, execute `npx tsc -p ./tsconfig.json` **na pasta do arquivo `index.ts`** que você quer transpilar. Isso vai gerar um arquivo `index.js` na pasta de cada um dos sistemas de módulos.
 
+> Lembrando que, para poder usar esse comando você precisa instalar a definição externa de tipos do Node no TypeScript com `npm install --save-dev @types/node`. Rode esse comando na raiz do projeto (a pasta `modulo-1`)
+
 ## ES Modules (ESM)
 
 O ES Modules é o sistema de módulos que foi criado para o JavaScript. Ele é o sistema de módulos que você usa quando faz `import` de um módulo no Node.js ou no navegador.
