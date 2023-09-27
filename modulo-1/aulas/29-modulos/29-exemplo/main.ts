@@ -9,12 +9,13 @@ function main() {
   const db = new Database()
 
   // criação de usuários
-  const usuarios = db.listar()
+  let usuarios = db.listar()
   console.log(usuarios) // []
 
   if (!usuarios.length) {
     const Jose = Usuario.create('José', 'jose@email.com', 'A formação TS é show')
     db.upsert(Jose)
+    usuarios = db.listar()
   }
 
   console.log(db.listar())
