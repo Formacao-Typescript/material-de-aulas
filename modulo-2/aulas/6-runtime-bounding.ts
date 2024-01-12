@@ -121,6 +121,19 @@
   ops2.prefix<'a'>(1, 'a') // podemos especificar o tipo do prefixo aqui
 
   /**
+   * O tipo Map é um desses tipos
+   */
+  const x = [1, 2, 3].map((item) => item.toString()) // string[]
+
+  /**
+   * No caso acima, `map` tem esse tipo:
+   * Array<number>.map<string>(callbackfn: (value: number, index: number, array: number[]) => string, thisArg?: any): string[]
+   *
+   * Veja que ele é um subtipo de Array<number> que é o tipo principal e o tipo de definimos no map é o tipo secundário
+   * que é definido durante a execução
+   */
+
+  /**
    * Este é o equivalente mais próximo de um currying com generics
    * Que é o que chamamos de runtime bounding.
    * Runtime bounding diz quando um tipo é definido na execução do código.
