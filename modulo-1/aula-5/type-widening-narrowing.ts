@@ -49,77 +49,77 @@
 }
 
 {
-    // Narrowing é o oposto, é quando temos um tipo ampliado e fazemos com que ele fique mais específico
-    // Podemos fazer isso manualmente
-    let x: any = 10
-    let y = x as number // aqui estamos reduzindo o tipo x de any para number manualmente
+  // Narrowing é o oposto, é quando temos um tipo ampliado e fazemos com que ele fique mais específico
+  // Podemos fazer isso manualmente
+  let x: any = 10
+  let y = x as number // aqui estamos reduzindo o tipo x de any para number manualmente
 
-    // Mas também podemos estreitar (ou reduzir) nossos tipos usando verificações
-    // e o TypeScript é inteligente o suficiente para saber quando temos um escopo diferente do outro
+  // Mas também podemos estreitar (ou reduzir) nossos tipos usando verificações
+  // e o TypeScript é inteligente o suficiente para saber quando temos um escopo diferente do outro
 
-    if (typeof x === 'number') {
-        let z = x // aqui o tipo de x será number
+  if (typeof x === 'number') {
+    let z = x // aqui o tipo de x será number
+  }
+
+  // podemos também reduzir com switch
+  switch (typeof x) {
+    case 'number':
+      let z = x // aqui o tipo de x é number
+      break
+    case 'string':
+      let w = x // aqui o tipo de x é string
+      break
+  }
+
+  // Outra possibilidade é reduzir usando instanceof
+  if (x instanceof Error) {
+    x.message // Aqui X é do tipo Error
+  }
+
+  // Existe outras possibilidades como a redução discriminada
+  type Cachorro = { latir: () => void }
+  type Gato = { miar: () => void }
+
+  // Forçamos uma conversão aqui só para mostrar o exemplo
+  const pet: Cachorro | Gato = {} as Cachorro | Gato
+
+  if ('latir' in pet) {
+    pet.latir() // Aqui pet é do tipo Cachorro
+  } else {
+    pet.miar() // Aqui pet é do tipo Gato
+  }
+
+  // Isso acontece porque o TypeScript consegue inferir o tipo de duas classes que tem membros completamente diferentes
+  // Logo, se a variável tem um membro de uma classe que não existe em outra, ele pode saber qual é a classe que estamos falando
+  // Vamos ver mais sobre isso em discriminated unions
+
+  // Outro tipo de narrowing acontece com null checks
+  let algoNulo: string | null = 'string'
+
+  if (algoNulo !== null) {
+    algoNulo // Aqui algoNulo é do tipo string
+  }
+
+  // Validações nativas do JavaScript também funcionam
+
+  if (Array.isArray(x)) {
+    x.map(() => {}) // x agora é do tipo any[]
+  }
+
+  // Podemos forçar narrowing em funções que levam unions
+  // DESAFIO: Tente transformar essa função de forma que o retorno
+  // seja a string em uppercase ao invés de lowercase
+  function uppercase<T extends string | string[]>(s: T): T {
+    if (Array.isArray(s)) {
+      // o TS sabe que aqui o tipo é string[]
+      return s.map(uppercase) as any
     }
+    // Aqui fora o tipo é string
+    return s.toUpperCase() as any
+  }
 
-    // podemos também reduzir com switch 
-    switch (typeof x) {
-        case 'number':
-            let z = x // aqui o tipo de x é number
-            break
-        case 'string':
-            let w = x // aqui o tipo de x é string
-            break
-    }
+  uppercase('String') // veja como o tipo está sendo definido aqui
+  uppercase(['string']) // Aqui o tipo já é expandido para string[]
 
-    // Outra possibilidade é reduzir usando instanceof
-    if (x instanceof Error) {
-        x.message // Aqui X é do tipo Error
-    }
-
-
-    // Existe outras possibilidades como a redução discriminada
-    type Cachorro = { latir: () => void }
-    type Gato = { miar: () => void }
-
-    // Forçamos uma conversão aqui só para mostrar o exemplo
-    const pet: Cachorro | Gato = {} as Cachorro | Gato
-
-    if ('latir' in pet) {
-        pet.latir() // Aqui pet é do tipo Cachorro
-    } else {
-        pet.miar() // Aqui pet é do tipo Gato
-    }
-
-    // Isso acontece porque o TypeScript consegue inferir o tipo de duas classes que tem membros completamente diferentes
-    // Logo, se a variável tem um membro de uma classe que não existe em outra, ele pode saber qual é a classe que estamos falando
-    // Vamos ver mais sobre isso em discriminated unions
-
-
-    // Outro tipo de narrowing acontece com null checks
-    let algoNulo: string | null = 'string'
-
-    if (algoNulo !== null) {
-        algoNulo // Aqui algoNulo é do tipo string
-    }
-
-    // Validações nativas do JavaScript também funcionam
-
-    if (Array.isArray(x)) {
-        x.map(() => { }) // x agora é do tipo any[]
-    }
-
-    // Podemos forçar narrowing em funções que levam unions
-    function uppercase<T extends string | string[]>(s: T): T {
-        if (Array.isArray(s)) {
-            // o TS sabe que aqui o tipo é string[]
-            return s.map(uppercase) as any
-        }
-        // Aqui fora o tipo é string
-        return s.toUpperCase() as any
-    }
-
-    uppercase('String') // veja como o tipo está sendo definido aqui
-    uppercase(['string']) // Aqui o tipo já é expandido para string[]
-
-    // Narrowing também pode ser feito com TypeGuards e Assertion Functions, vamos ver isso nas próximas aulas
+  // Narrowing também pode ser feito com TypeGuards e Assertion Functions, vamos ver isso nas próximas aulas
 }
