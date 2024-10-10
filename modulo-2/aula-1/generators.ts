@@ -16,7 +16,7 @@ import { join } from 'node:path';
         let a = 0;
         let b = 1;
 
-        // A chanve de um generator é usarmos um loop infinito
+        // A chave de um generator é usarmos um loop infinito
         while (true) {
             // com a keyword yield, que para a execução do generator
             yield a;
