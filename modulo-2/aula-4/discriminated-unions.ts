@@ -26,7 +26,7 @@
 
     // Temos que fazer um narrowing que vai nos apontar para o tipo correto
     if (dado.success) {
-        // O tipo aqui agora é ZodSuccess to T que passamos
+        // O tipo aqui agora é ZodSuccess do T que passamos
         const resultado = dado.data
         console.log(resultado.result)
     }
