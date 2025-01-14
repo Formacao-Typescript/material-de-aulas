@@ -36,10 +36,27 @@ import { randomUUID } from "crypto"
     const uuid: UUID = randomUUID() as UUID
     // @ts-expect-error Precisamos de um casting
     const ulid: ULID = 'não é ID'
+
+    // Mas isso tem um problema,
+    // todos os tipos ficam com a mesma brand
+    const umUUID: UUID = ulid // isso não poderia acontecer
+
+    /**
+     * Para resolver o problema do symbol
+     * temos que criar um novo symbol a cada execução
+     * porque estamos recriando o mesmo sempre que usamos BrandSymbol
+     */
+    type UUID2 = string & { readonly __brand: unique symbol }
+    type ULID2 = string & { readonly __brand: unique symbol }
+    const outroUUID: UUID2 = 'com simbolo correto' as UUID2
+    const outroULID: ULID2 = 'com simbolo correto' as ULID2
+
+    // isso vai nos dar o erro que esperamos
+    const correto: UUID2 = outroULID
 }
 
 // Vamos definir o tipo globalmente aqui para podermos usar sem redefinir
-type BrandSymbol<T> = T & { readonly __brand: unique symbol }
+type Brand<T, B> = T & { readonly __brand: B }
 {
     /**
      * MAS ONDE USAR BRANDED TYPES?
@@ -49,8 +66,8 @@ type BrandSymbol<T> = T & { readonly __brand: unique symbol }
      * Todas elas podem ser representadas com uma string ou um numero
      * mas um Euro é diferente de um Dólar
      */
-    type EUR = BrandSymbol<string>
-    type USD = BrandSymbol<string>
+    type EUR = Brand<string, 'eur'>
+    type USD = Brand<string, 'usd'>
 
 
     //Imagine que queremos uma função que converte de Euros para Dólares
@@ -72,56 +89,6 @@ type BrandSymbol<T> = T & { readonly __brand: unique symbol }
 
 {
     /**
-     * Para criarmos branded types, ou seja, para produzirmos esses tipos
-     * precisamos de uma função específica que recebe o tipo primitivo base
-     * e retorna o tipo específico, tornando a gestão dos identificadores muito
-     * mais fácil
-     */
-    type Email = BrandSymbol<string>
-    function validaEmail(s: string): Email {
-        if (!s.includes('@')) throw new Error('Email inválido')
-        // Essa é uma conversão explícita feita para uma brand
-        return s as Email
-    }
-    const email = validaEmail('hello@lsantos.dev') // meu tipo é especificamente um email
-
-    /**
-    * Da mesma forma, podemos usar braded types para criar
-    * uma modelagem mais específica de domínio, por exemplo
-    * um Euro é um número positivo apenas
-    */
-    type EUR = BrandSymbol<number>
-    type Positivo<T> = BrandSymbol<T>
-
-    function checkPositivo(n: EUR): Positivo<EUR> {
-        if (n < 0) throw new Error('número não é positivo')
-        return n as Positivo<EUR>
-    }
-
-    // Veja que esse é um EURO positivo
-    // então podemos ter branded types dentro de branded types
-    const euros = checkPositivo(100 as EUR)
-
-    // -------------------------- //
-
-    // Vamos criar uma nova função mais genérica
-    type USD = BrandSymbol<string>
-
-    function checkPositivoGenerico<T>(n: number): Positivo<T> {
-        if (n < 0) throw new Error('número não é positivo')
-        return n as unknown as Positivo<T>
-    }
-
-    const usd = checkPositivoGenerico<USD>(100)
-    const eur = checkPositivoGenerico<EUR>(100)
-
-    // @ts-expect-error aqui esperamos um euro positivo e estamos mandando um USD
-    const eurosErrado: Positivo<EUR> = usd
-
-}
-
-{
-    /**
      * Podemos transformar nossos branded types em algo genérico
      */
     type Brand<T, B extends string> = T & { __brand: B }
@@ -139,6 +106,32 @@ type BrandSymbol<T> = T & { readonly __brand: unique symbol }
 
     console.log(`Convertido: $${dollars}`);
 }
+
+{
+    /**
+     * Para criarmos branded types, ou seja, para produzirmos esses tipos
+     * precisamos de uma função específica que recebe o tipo primitivo base
+     * e retorna o tipo específico, tornando a gestão dos identificadores muito
+     * mais fácil
+     */
+    type Email = Brand<string, 'email'>
+    function validaEmail(s: string): Email {
+        if (!s.includes('@')) throw new Error('Email inválido')
+        // Essa é uma conversão explícita feita para uma brand
+        return s as Email
+    }
+    const email = validaEmail('hello@lsantos.dev') // meu tipo é especificamente um email
+
+    /**
+     * É importante notar que branded types NÃO PODEM ter vários níveis
+     * por exemplo, Positivo<EUR> porque isso transformaria o tipo final
+     * em never
+     */
+    type Positivo<T> = Brand<T, 'positivo'>
+    // Never porque não existe nenhuma propriedade em um que existe no outro
+    const emailPositivo: Positivo<Email> = 'isso aqui é never'
+}
+
 
 /**
  * Branded types são ótimos, mas sozinhos eles acabam tendo pouca funcionalidade
