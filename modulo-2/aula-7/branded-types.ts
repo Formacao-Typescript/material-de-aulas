@@ -23,7 +23,7 @@ import { randomUUID } from "crypto"
     // Agora podemos criar um branded type, por exemplo para um ID
     type ID = Brand<string, 'ID'>
 
-    // @ts-expect-error stirngs comuns não podem ser associadas
+    // @ts-expect-error strings comuns não podem ser associadas
     const userId: ID = 'strings não são IDs'
     // Precisamos primeiro fazer o casting para ID
     const castID: ID = 'com cast podemos' as ID
