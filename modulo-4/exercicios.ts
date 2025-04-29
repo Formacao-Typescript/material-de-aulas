@@ -42,6 +42,7 @@
     type ExemploConcreto = RequiredDeep<{ name?: string, next?: { name?: string, next?: { name?: string } } }>
     const x: ExemploConcreto = {
         name: '',
+        // @ts-expect-error
         next: { // erro
             name: ''
         }
