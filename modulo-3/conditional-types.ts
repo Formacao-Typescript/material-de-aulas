@@ -72,6 +72,15 @@
          * e o resultado dessa função depende do valor de T
          */
     }
+    /* 
+     * A vantagem desse tipo é que escrevemos menos, porém a desvantagem
+     * é que, como IDEs não expandem esses tipos, não temos uma inferência
+     * bonita do que a função aceita ou não, com os nomes corretos de parâmetro
+     * e os tipos de cada um como teríamos com um overload.
+     *
+     * Nesse caso vamos ter exatamente o que escrevemos na assinatura da funcão
+     * que é um tipo que pode ficar bastante complexo para ler muito rápido
+     */
 }
 
 {
@@ -101,6 +110,7 @@
     /**
      * Isso só é possível porque o TypeScript tem a tipagem
      * estrutural, e não nominal, como falamos no treinamento essencial
+     *
      */
 }
 
