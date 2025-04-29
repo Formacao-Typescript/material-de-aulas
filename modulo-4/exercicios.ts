@@ -1,5 +1,17 @@
 {
     /**
+     * Lembra do exemplo do Unpromise do módulo de conditional types?
+     * E se passarmos um Promise<Promise<string>>? Faça com que esse tipo
+     * seja recursivo
+     */
+    type UnpromiseDeep<T> = T extends Promise<infer U> ? UnpromiseDeep<U> : T
+
+    type UmaPromise = UnpromiseDeep<Promise<string>> // string
+    type VariasPromises = UnpromiseDeep<Promise<Promise<Promise<Promise<string>>>>> // string
+}
+
+{
+    /**
      * Crie um tipo chamado Required<T> que recebe um objeto
      * e transforma todas as propriedades desse objeto em obrigatórias
     */
@@ -42,7 +54,7 @@
     type ExemploConcreto = RequiredDeep<{ name?: string, next?: { name?: string, next?: { name?: string } } }>
     const x: ExemploConcreto = {
         name: '',
-        // @ts-expect-error
+        // @ts-expect-error porque não temos a recursividade no objeto já que agora tudo é required
         next: { // erro
             name: ''
         }
