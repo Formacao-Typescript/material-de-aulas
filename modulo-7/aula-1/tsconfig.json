@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "outDir": "dist",
+        "rootDir": ".",
+        "declarationMap": true,
+        "declaration": true,
+        "emitDeclarationOnly": false,
+        "isolatedDeclarations": false,
+        "target": "ES2022",
+        "module": "ESNext",
+        "moduleResolution": "node",
+        "strict": true,
+    }
+}
