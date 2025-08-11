@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "declarationMap": true,
+        "declaration": true,
+        "emitDeclarationOnly": false,
+        "isolatedDeclarations": false,
+        "target": "ES2022",
+        "module": "ESNext",
+        "strict": true,
+        "typeRoots": [
+            "./types",
+            "./node_modules/@types"
+        ]
+    }
+}
