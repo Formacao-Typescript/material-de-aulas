@@ -7,8 +7,6 @@
         "target": "ES2022",
         "module": "ESNext",
         "strict": true,
-        "typeRoots": [
-            ".",
-        ]
+        // Aqui não precisamos de type roots e funciona bem
     }
 }

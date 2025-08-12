@@ -7,6 +7,14 @@
         "target": "ES2022",
         "module": "ESNext",
         "strict": true,
+        /**
+        * Indica para o TS que vamos usar APENAS essas pastas para buscar tipos
+        * setar essa propriedade pode causar conflitos na resolução de tipos
+        * e estamos setando ela para evitar que o TS busque tipos de outros lugares
+        * e busque apenas os tipos que estão dentro da pasta types para ficar mais fácil
+        * mas, em um ambiente real, não iremos mudar essa propriedade, ou, se mudarmos,
+        * temos que ter certeza de incluir node_modules/@types
+        */
         "typeRoots": [
             "./types",
             "./node_modules/@types"
