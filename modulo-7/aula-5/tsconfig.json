@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "declarationMap": true,
+        "declaration": true,
+        "emitDeclarationOnly": false,
+        "isolatedDeclarations": false,
+        "target": "ES2022",
+        "module": "ESNext",
+        "strict": true,
+        "allowSyntheticDefaultImports": true
+    },
+    "include": [
+        "./express-augmentation.d.ts",
+        "./library-augmentation.ts"
+    ]
+}
