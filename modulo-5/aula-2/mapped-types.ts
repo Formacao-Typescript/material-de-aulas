@@ -1,5 +1,5 @@
 /**
- * O par doa lookup types são os mapped types.
+ * O par dos lookup types são os mapped types.
  * Mapped types são tipos que nos permitem criar novos tipos
  * através da iteração sobre as chaves de um tipo existente.
  *

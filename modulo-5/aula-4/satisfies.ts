@@ -4,7 +4,7 @@
  * e serve para garantir que um valor obedece a um contrato (tipo),
  * sem perder a inferência literal dos valores.
  *
- * Ele é uma forma de validação de tipos **sem forçar um cast**
+ * Ele é uma forma de validação de tipos sem forçar um cast
  * e sem "afrouxar" a precisão do que está sendo definido.
  */
 
@@ -12,7 +12,7 @@
  * Eu escrevi um artigo explicando o `satisfies` com mais exemplos,
  * pegadinhas e casos de uso reais:
  *
- * 👉 https://lsantos.dev/ts-satisfies  
+ * 👉 https://lsantos.dev/ts-satisfies
  */
 {
     /**
