@@ -3,19 +3,13 @@
  * é para adicionar tipos e helpers globais que o TypeScript não possui
  * nativamente, como os que viemos criando ao longo do curso.
  *
- * Veja que estou colocando `typeRoots` como `.` no nosso tsconfig.json
- * para que eu possa pegar o tipo diretamente da raiz usando os arquivos
- * .d.ts, em um ambiente real você provavelmente vai querer colocar
- * esses tipos em uma pasta `types` ou `globalTypes` e adicionar o
- * `node_modules/@types` como um dos `typeRoots`.
- *
  * Isso é o que alguns pacotes famosos como o typetype e o type-fest
  * fazem por baixo dos panos. Eles criam tipos dessa forma, porém não
  * globais, mas sim específicos para o pacote. Outros pacotes como o
  * ts-reset fazem isso para sobrescrever tipos nativos do TypeScript
  */
 
-export {};
+export { };
 
 // A ideia é a mesma, declaramos o escopo global
 // e sobrescrevemos os tipos que queremos

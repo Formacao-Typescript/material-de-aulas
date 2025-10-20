@@ -13,4 +13,4 @@ Para isso vamos:
    codando que importa o módulo JavaScript
 
 Vamos ver que podemos ter a tipagem correta do tipo no arquivo JavaScript mesmo
-importando a partir de um arquivo TyhpeScript
+importando a partir de um arquivo TypeScript

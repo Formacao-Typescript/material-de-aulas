@@ -9,7 +9,7 @@
  * Para isso, vamos ter que adicionar uma propriedade no nosso
  * tsconfig.json indicando que queremos pegar outros tipos
  * de uma pasta específica, essa propriedade é chamada de
- * TypeRoots e indica para o TypeeScript que vamos utilizar
+ * TypeRoots e indica para o TypeScript que vamos utilizar
  * arquivos de configuração que vem desta lista de pastas
  *
  * Por isso que colocamos esse arquivo dentro da pasta Types
@@ -30,7 +30,7 @@
 // Primeiro temos que declarar esse arquivo como um módulo
 // isso evita que o TS execute esse arquivo como um script
 // global e previne conflitos
-export {};
+export { };
 
 // Vamos declarar o módulo global, dizendo que vamos sobrescrever
 // as funções dentro dele
