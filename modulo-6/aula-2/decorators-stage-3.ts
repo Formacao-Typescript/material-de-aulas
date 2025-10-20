@@ -25,7 +25,7 @@ type UmaClasse = new (...args: any[]) => any;
   }
 
   @logClass
-  class User {}
+  class User { }
 }
 
 {
@@ -120,7 +120,7 @@ type UmaClasse = new (...args: any[]) => any;
         /* Este this é o contexto da CLASSE */ this,
         /* Neste contexto, o name é o nome da propriedade */ context.name,
         {
-          // writable: false, /* Podemos fazer dessa forma sem ter o erro direto */
+          // writable: false, /* Podemos fazer dessa forma para evitar perder o get */
           set: function (value) {
             throw new Error(
               `Não é possível setar a propriedade readonly ${String(context.name)} para ${value}. A propriedade é somente leitura`,
@@ -137,10 +137,56 @@ type UmaClasse = new (...args: any[]) => any;
   }
 
   const c = new Config();
+  // essa linha vai retornar undefined porque estamos
+  // substituindo o setter da propriedade
+  // para resolver, não podemos usar o setter, mas sim
+  // modificar a flag writable diretamente
   console.log(c.apiUrl);
   // Descomente a linha abaixo para ter um erro
   // c.apiUrl = "blog.lsantos.dev"; // Não altera
   // console.log(c.apiUrl); // Linha morta
+}
+
+// ACCESSOR DECORATORS
+{
+  /**
+   * Para evitar ter o problema de sobrescrever o getter/setter
+   * a gente pode usar o decorator de accessor para não só 
+   * sobrescrever o método, mas também ter acesso ao descriptor
+   * da propriedade, evitando que a gente tenha um loop infinito
+   * quando tentamos pegar o valor da propriedade
+  */
+  function readOnly(value: unknown, context: ClassAccessorDecoratorContext) {
+    // passamos o valor inicial para uma variável privada
+    let _val = value
+    // O retorno aqui vai ser um objeto de inicialização do accessor
+    return {
+      init(initial: unknown) {
+        // substituímos o valor inicial
+        _val = initial
+        return _val
+      },
+      // aqui podemos fazer o get sem recursão
+      get() {
+        return _val
+      },
+      // mantemos a mensagem de erro
+      set(newVal: unknown) {
+        throw new Error(`Não é possível setar a propriedade ${String(context.name)} para ${newVal}. A propriedade é somente leitura`)
+      }
+    } as unknown as any
+  }
+
+  class Config {
+    @readOnly
+    accessor apiUrl = 'https://meusite.com'
+  }
+
+  // agora vamos ter o valor correto
+  const c = new Config()
+  console.log(c.apiUrl)
+  // e o nosso erro
+  c.apiUrl = 'blog.lsantos.dev'
 }
 
 // DECORATOR FACTORIES
@@ -212,7 +258,7 @@ type UmaClasse = new (...args: any[]) => any;
 
   // Experimente remover .bind(collector)
   @collector.install.bind(collector)
-  class MyClass {}
+  class MyClass { }
 
   const inst1 = new MyClass();
   const inst2 = new MyClass();
@@ -262,7 +308,7 @@ type UmaClasse = new (...args: any[]) => any;
   const collector = new InstanceCollector();
 
   @collector.install
-  class MyClass {}
+  class MyClass { }
 
   const inst1 = new MyClass();
   const inst2 = new MyClass();
